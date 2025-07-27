@@ -1,4 +1,7 @@
 .env
 .venv
-
-document_portal.egg-info
+__pycache__/
+document_portal.egg-info/
+logs/
+*.pyc
+test.py
