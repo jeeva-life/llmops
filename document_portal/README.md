@@ -4,6 +4,8 @@ python -m ensurepip --upgrade
 deactivate
 Remove-Item -Recurse -Force .venv
 
+Python gives logging module: STRUCTLOG, LOGGING, LOG GURU
+
 Minimum Requirements for the Project
 LLM Models
 Groq (Free)
