@@ -28,3 +28,24 @@ if __name__ == "__main__":
     logger = CustomLogger()
     logger = logger.get_logger(__file__) # this automatically gets the current file name
     logger.info("Logging has started")
+
+'''
+
+class CustomLogger:
+    def __init__(self, log_dir="logs"):
+        # Ensure log directory exists
+        self.logs_dir = os.path.join(os.getcwd(), log_dir)
+        os.makedirs(self.logs_dir, exist_ok=True)
+
+        # Create a timestamp log file
+        log_file = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
+        self.log_file_path = os.path.join(self.logs_dir, log_file)
+
+    def get_logger(self, name=__file__):
+        """
+        return a logger instance with file + console handlers.
+        Default name is the current file name (without path)
+        """
+        logger_name = os.path.basename(name)
+        logger = logging.getLogger(logger_name)
+        '''

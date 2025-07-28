@@ -4,7 +4,9 @@ python -m ensurepip --upgrade
 deactivate
 Remove-Item -Recurse -Force .venv
 
-Python gives logging module: STRUCTLOG, LOGGING, LOG GURU
+Python gives logging module: STRUCTLOG, LOGGING, LOG GURU : creates .log files
+
+STREAMHANDLER Logger to print over th console
 
 Minimum Requirements for the Project
 LLM Models
