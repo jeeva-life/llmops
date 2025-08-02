@@ -1,7 +1,7 @@
 import os 
 import sys
 from dotenv import load_dotenv
-from config_loader import load_config
+from .config_loader import load_config
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
