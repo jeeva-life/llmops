@@ -11,7 +11,7 @@ retriever:
 llm:
   groq:
     provider: "groq"
-    model_name: "deepseek-r1"
+    model_name: "deepseek-r1-distill-llama-70b"
     temperature: 0.2
     max_output_tokens: 1000
 

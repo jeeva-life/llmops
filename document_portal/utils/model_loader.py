@@ -1,7 +1,7 @@
 import os 
 import sys
 from dotenv import load_dotenv
-from utils.config_loader import load_config
+from config_loader import load_config
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
@@ -40,8 +40,8 @@ class ModelLoader:
         """
         try:
             log.info("loading embedding model")
-            model_name = self.config["embedding_model"]["modle_name"]
-            return GoogleGenerativeAIEmbeddings(embedding_model_name=model_name)
+            model_name = self.config["embedding_model"]["model_name"]
+            return GoogleGenerativeAIEmbeddings(model=model_name)
         except Exception as e:
             log.error("failed to load embedding model", error=str(e))
             raise DocumentPortalException("failed to load embedding model", sys)
