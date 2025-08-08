@@ -9,5 +9,6 @@ faiss-cpu
 structlog
 PyMuPDF
 pandas
+streamlit
 
 -e .
