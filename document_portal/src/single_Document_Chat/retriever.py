@@ -22,7 +22,7 @@ class ConversationalRAG:
         self.retriever = retriever
 
         try:
-            self.llm = _load_llm()
+            self.llm = self._load_llm()
             self.contextualize_prompt = PROMPT_REGISTRY[PromptType.CONTEXTUALIZE_QUESTION.value]
             self.qa_prompt = PROMPT_REGISTRY[PromptType.CONTEXT_QA.value]
 
@@ -60,7 +60,7 @@ class ConversationalRAG:
         
     def _get_session_history(self, session_id: str) -> BaseChatMessageHistory:
         try:
-            if store not in st.session_state:
+            if "store" not in st.session_state:
                 st.session_state.store = {}
             
             if session_id not in st.session_state.store:
