@@ -103,12 +103,12 @@ import sys
 from pathlib import Path
 from langchain_community.vectorstores import FAISS
 from src.single_Document_Chat.data_ingestion import SingleDocIngestor
-from src.single_Document_Chat.retriever import CoversationalRAG
+from src.single_Document_Chat.retriever import ConversationalRAG
 from utils.model_loader import ModelLoader
 
 FAISS_INDEX_PATH = Path("faiss_index")
 
-def test_conversational_raf_on_pdf(pdf_path: str, question: str):
+def test_conversational_rag_on_pdf(pdf_path: str, question: str):
     try:
         model_loader = ModelLoader()
 
