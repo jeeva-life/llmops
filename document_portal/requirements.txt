@@ -10,5 +10,7 @@ structlog
 PyMuPDF
 pandas
 streamlit
+pytest
+langchain-core[tracing] # for tracing the token usage in the LLM calls
 
 -e .
