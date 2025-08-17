@@ -1,4 +1,3 @@
-
 # Test code for document ingestion and analysis using a PDFHandler and DocumentAnalyzer
 
 # import os
@@ -153,16 +152,16 @@
 ## testing for multidoc chat
 import sys
 from pathlib import Path
-from src.multi_document_Chat.data_ingestion import DocumentIngestor
-from src.multi_document_Chat.retriever import ConversationalRAG
+from src.multi_document_chat.data_ingestion import DocumentIngestor
+from src.multi_document_chat.retrieval import ConversationalRAG
 
 def test_document_ingestion_and_rag():
     try:
         test_files = [
-            "dummy_data\\multi_doc_chat\\market_analysis_report.docx",
-            "dummy_data\\multi_doc_chat\\NIPS-2017-attention-is-all-you-need-Paper.pdf",
-            "dummy_data\\multi_doc_chat\\sample.pdf",
-            "dummy_data\\multi_doc_chat\\state_of_the_union.txt"
+            "data\\multi_doc_chat\\market_analysis_report.docx",
+            "data\\multi_doc_chat\\NIPS-2017-attention-is-all-you-need-Paper.pdf",
+            "data\\multi_doc_chat\\sample.pdf",
+            "data\\multi_doc_chat\\state_of_the_union.txt"
         ]
         
         uploaded_files = []
