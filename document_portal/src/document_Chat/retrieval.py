@@ -11,7 +11,7 @@ from langchain_community.vectorstores import FAISS
 from utils.model_loader import ModelLoader
 from exception.custom_exception import DocumentPortalException
 from logger import GLOBAL_LOGGER as log
-from prompt.prompt_library import PROMPT_REGISTRY
+from prompts.prompt_library import PROMPT_REGISTRY
 from model.models import PromptType
 
 
