@@ -3,7 +3,7 @@ import sys
 from utils.model_loader import ModelLoader
 from prompts.prompt_library import PROMPT_REGISTRY
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import DocumentPortalException
+from exception.custom_exception_archive import DocumentPortalException
 from model.models import Metadata, SummaryResponse, ChangeFormat
 from langchain_core.output_parsers import JsonOutputParser
 from langchain.output_parsers import OutputFixingParser
