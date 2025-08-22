@@ -4,6 +4,7 @@ __pycache__/
 document_portal.egg-info/
 logs/
 *.pyc
-D:\Jeevan\llmops\document_portal/dummy_data/
+document_portal/dummy_data/
 faiss_index/
 main_archive.py
+archive/
