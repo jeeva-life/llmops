@@ -28,12 +28,12 @@
     <section id="tab-analysis" class="tab-panel active">
       <div class="card">
         <h2>🔎 Analyze a Document</h2>
-        <p class="muted">Upload a PDF and get structured analysis.</p>
+        <p class="muted">Upload any supported document format and get structured analysis.</p>
         <form id="form-analyze" class="form-grid" onsubmit="return false;">
           <div class="field">
-            <label for="an-file">Upload PDF</label>
-            <input id="an-file" type="file" accept=".pdf" required />
-            <small class="help">Only .pdf files</small>
+            <label for="an-file">Upload Document</label>
+            <input id="an-file" type="file" accept=".pdf,.docx,.txt,.ppt,.pptx,.xlsx,.csv,.md,.sql,.db" required />
+            <small class="help">Supported: PDF, DOCX, TXT, PPT, PPTX, XLSX, CSV, MD, SQL, DB</small>
           </div>
           <div class="actions">
             <button id="btn-analyze" class="btn primary">Run Analysis</button>
@@ -50,15 +50,15 @@
     <section id="tab-compare" class="tab-panel">
       <div class="card">
         <h2>🆚 Compare Two Documents</h2>
-        <p class="muted">Upload a reference PDF and an actual PDF to see page-wise differences.</p>
+        <p class="muted">Upload any two supported documents to see differences.</p>
         <form id="form-compare" class="form-grid-2" onsubmit="return false;">
           <div class="field">
-            <label for="cmp-ref">Reference PDF</label>
-            <input id="cmp-ref" type="file" accept=".pdf" required />
+            <label for="cmp-ref">Reference Document</label>
+            <input id="cmp-ref" type="file" accept=".pdf,.docx,.txt,.ppt,.pptx,.xlsx,.csv,.md,.sql,.db" required />
           </div>
           <div class="field">
-            <label for="cmp-act">Actual PDF</label>
-            <input id="cmp-act" type="file" accept=".pdf" required />
+            <label for="cmp-act">Actual Document</label>
+            <input id="cmp-act" type="file" accept=".pdf,.docx,.txt,.ppt,.pptx,.xlsx,.csv,.md,.sql,.db" required />
           </div>
           <div class="actions span-2">
             <button id="btn-compare" class="btn primary">Compare</button>
@@ -90,7 +90,7 @@
         <form id="form-chat-index" class="form-grid" onsubmit="return false;">
           <div class="field">
             <label for="chat-files">Upload files</label>
-            <input id="chat-files" type="file" multiple accept=".pdf,.docx,.txt" />
+            <input id="chat-files" type="file" multiple accept=".pdf,.docx,.txt,.ppt,.pptx,.xlsx,.csv,.md,.sql,.db" />
             <small class="help">You can select multiple files.</small>
           </div>
 
