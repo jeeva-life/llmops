@@ -21,4 +21,15 @@ python-dotenv==1.1.1
 python-multipart==0.0.20
 docx2txt==0.9
 
+# Multi-format document support
+unstructured[all-docs]
+python-pptx
+openpyxl
+xlrd
+markdown
+
+# Image processing support
+Pillow
+opencv-python
+
 -e .
