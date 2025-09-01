@@ -21,6 +21,10 @@
       <button class="tab-btn" data-tab="compare">Document Compare</button>
       <button class="tab-btn" data-tab="chat">Doc Chat</button>
     </nav>
+    <div class="user-section">
+      <span id="user-display">Welcome!</span>
+      <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
   </header>
 
   <main class="container">
@@ -158,6 +162,54 @@
   <script>
   // Base URL for API (same origin when opened via FastAPI)
   const API_BASE = "";
+
+  // ===== AUTHENTICATION =====
+  // Check authentication on page load
+  window.addEventListener('load', function() {
+    checkAuth();
+  });
+
+  function checkAuth() {
+    // Check sessionStorage first (for fresh login), then localStorage
+    let token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
+    let user = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || '{}');
+    
+    // Don't auto-redirect - let the backend handle it
+    if (!token) {
+      // Just clear any stale data and let the backend redirect
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('user');
+      return;
+    }
+    
+    // Display user info
+    const userDisplay = document.getElementById('user-display');
+    if (user.username) {
+      userDisplay.textContent = `Welcome, ${user.username}!`;
+    }
+    
+    // Add authorization header to all fetch requests
+    const originalFetch = window.fetch;
+    window.fetch = function(url, options = {}) {
+      if (token) {
+        options.headers = {
+          ...options.headers,
+          'Authorization': `Bearer ${token}`
+        };
+      }
+      return originalFetch(url, options);
+    };
+  }
+
+  function logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('access_token');
+    sessionStorage.removeItem('user');
+    window.location.href = '/login';
+  }
 
   // Tab switching (unchanged)
   const tabs = document.querySelectorAll(".tab-btn");

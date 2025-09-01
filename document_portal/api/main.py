@@ -1,7 +1,7 @@
 import os
 from typing import List, Optional, Any, Dict
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request, Depends
+from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -17,6 +17,9 @@ from src.document_Compare.document_comparator import DocumentComparatorLLM
 from src.document_Chat.retrieval import ConversationalRAG
 from utils.enhanced_document_processor import FastAPIFileAdapter
 from logger import GLOBAL_LOGGER as log
+from auth.routes import router as auth_router
+from auth.dependencies import get_current_user, optional_current_user, optional_current_user_no_auth
+from models.user import User
 
 FAISS_BASE = os.getenv("FAISS_BASE", "faiss_index")
 UPLOAD_BASE = os.getenv("UPLOAD_BASE", "data")
@@ -28,6 +31,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
+# Include authentication routes
+app.include_router(auth_router)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -37,11 +43,22 @@ app.add_middleware(
 )
 
 @app.get("/", response_class=HTMLResponse)
-async def serve_ui(request: Request):
-    log.info("Serving UI homepage.")
-    resp = templates.TemplateResponse("index.html", {"request": request})
+async def serve_ui(request: Request, current_user: Optional[User] = Depends(optional_current_user_no_auth)):
+    """Serve the main UI - redirect to login if not authenticated"""
+    if not current_user:
+        log.info("User not authenticated, redirecting to login")
+        return RedirectResponse(url="/login")
+    
+    log.info(f"Serving UI homepage for user: {current_user.username}")
+    resp = templates.TemplateResponse("index.html", {"request": request, "user": current_user})
     resp.headers["Cache-Control"] = "no-store"
     return resp
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    """Serve the login page"""
+    log.info("Serving login page")
+    return templates.TemplateResponse("login.html", {"request": request})
 
 @app.get("/health")
 def health() -> Dict[str, str]:
@@ -86,7 +103,10 @@ async def test_extract_text(file: UploadFile = File(...)) -> Dict[str, Any]:
 
 # ---------- ANALYZE ----------
 @app.post("/analyze")
-async def analyze_document(file: UploadFile = File(...)) -> Any:
+async def analyze_document(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user)
+) -> Any:
     try:
         log.info(f"Received file for analysis: {file.filename}")
         
@@ -127,7 +147,11 @@ async def analyze_document(file: UploadFile = File(...)) -> Any:
 
 # ---------- COMPARE ----------
 @app.post("/compare")
-async def compare_documents(reference: UploadFile = File(...), actual: UploadFile = File(...)) -> Any:
+async def compare_documents(
+    reference: UploadFile = File(...), 
+    actual: UploadFile = File(...),
+    current_user: User = Depends(get_current_user)
+) -> Any:
     try:
         log.info(f"Comparing files: {reference.filename} vs {actual.filename}")
         
@@ -177,6 +201,7 @@ async def chat_build_index(
     chunk_size: int = Form(1000),
     chunk_overlap: int = Form(200),
     k: int = Form(5),
+    current_user: User = Depends(get_current_user)
 ) -> Any:
     try:
         log.info(f"Indexing chat session. Session ID: {session_id}, Files: {[f.filename for f in files]}")
@@ -231,6 +256,7 @@ async def chat_query(
     session_id: Optional[str] = Form(None),
     use_session_dirs: bool = Form(True),
     k: int = Form(5),
+    current_user: User = Depends(get_current_user)
 ) -> Any:
     try:
         log.info(f"Received chat query: '{question}' | session: {session_id}")
